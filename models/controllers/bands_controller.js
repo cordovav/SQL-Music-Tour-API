@@ -1,6 +1,6 @@
 //dependencies
 const bands = require('express').Router()
-const db = require('../models')
+const db = require('../')
 const { Band } = db
 
 //find all bands

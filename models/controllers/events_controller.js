@@ -1,10 +1,12 @@
 //dependencies
 const events = require('express').Router()
-const db = require('..')
+const db = require('../')
 const { Events } = db
+const { Op } = require('sequelize')
+
 
 //find all events
-events.get('/', async (req,res) => {
+events.get('/events', async (req,res) => {
     try {
         const foundEvents = await Events.findAll({
             order: [ [ 'available_start_time', 'ASC' ] ],
@@ -19,7 +21,7 @@ events.get('/', async (req,res) => {
     })
 
 
-events.get('/:id', async (req,res) => {
+events.get('/events/:id', async (req,res) => {
     try {
         const foundEvents = await Events.findAll({
             where: { event_id: req.params.id }
@@ -31,7 +33,7 @@ events.get('/:id', async (req,res) => {
     })
 
 //create a band
-events.post('/', async (req,res) => {
+events.post('/events', async (req,res) => {
     try {
         const newEvent = await Events.create(req.body)
         res.status(200).json({
@@ -44,7 +46,7 @@ events.post('/', async (req,res) => {
     })
 
 // UPDATE A BAND
-events.put('/:id', async (req, res) => {
+events.put('/events/:id', async (req, res) => {
     try {
         const updatedEvents = await Events.update(req.body, {
             where: {
@@ -60,7 +62,7 @@ events.put('/:id', async (req, res) => {
 })
 
 // DELETE A BAND
-events.delete('/:id', async (req, res) => {
+events.delete('/events/:id', async (req, res) => {
     try {
         const deletedEvents = await Events.destroy({
             where: {

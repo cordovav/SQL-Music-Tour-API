@@ -17,13 +17,13 @@ app.get('/', (req, res) => {
 })
 
 //controllers
-const bandsController = require('./controllers/bands_controller')
+const bandsController = require('./models/controllers/bands_controller')
 app.use('/bands', bandsController)
 
-const eventsController = require('./controllers/events_controller')
+const eventsController = require('./models/controllers/events_controller')
 app.use('/events', eventsController)
 
-const stagesController = require('./controllers/stages_controller')
+const stagesController = require('./models/controllers/stages_controller')
 app.use('/stages', stagesController)
 
 

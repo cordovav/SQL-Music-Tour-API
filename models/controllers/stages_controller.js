@@ -1,10 +1,11 @@
 //dependencies
 const stages = require('express').Router()
-const db = require('..')
+const db = require('../')
 const { Stage } = db
+const { Op } = require('sequelize')
 
 //find all bands
-stages.get('/', async (req,res) => {
+stages.get('/stages', async (req,res) => {
     try {
         const foundStages = await Stage.findAll({
             order: [ [ 'available_start_time', 'ASC' ] ],
@@ -19,7 +20,7 @@ stages.get('/', async (req,res) => {
     })
 
 
-stages.get('/:id', async (req,res) => {
+stages.get('/stages/:id', async (req,res) => {
     try {
         const foundStage = await Stage.findAll({
             where: { stage_id: req.params.id }
@@ -31,7 +32,7 @@ stages.get('/:id', async (req,res) => {
     })
 
 //create a stage
-stages.post('/', async (req,res) => {
+stages.post('/stages', async (req,res) => {
     try {
         const newStage = await Stage.create(req.body)
         res.status(200).json({
@@ -44,7 +45,7 @@ stages.post('/', async (req,res) => {
     })
 
 // UPDATE A stage
-stages.put('/:id', async (req, res) => {
+stages.put('/stages/:id', async (req, res) => {
     try {
         const updatedStages = await Stage.update(req.body, {
             where: {
@@ -60,7 +61,7 @@ stages.put('/:id', async (req, res) => {
 })
 
 // DELETE A BAND
-stages.delete('/:id', async (req, res) => {
+stages.delete('/stages/:id', async (req, res) => {
     try {
         const deletedStages = await Stage.destroy({
             where: {
