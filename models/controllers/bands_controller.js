@@ -1,13 +1,18 @@
 //dependencies
 const bands = require('express').Router()
 const db = require('../')
-const { Band } = db
+const { Band, MeetGreets } = db
+const { Op } = require('sequelize')
 
 //find all bands
 bands.get('/', async (req,res) => {
     try {
         const foundBands = await Band.findAll({
-            order: [ [ 'available_start_time', 'ASC' ] ]
+            order: [ [ 'available_start_time', 'ASC' ] ],
+            where: {
+                name :{[Op.like]: `%${req.query.name ? req.query.name : ''}%`}
+
+}
         })
         res.status(200).json(foundBands)
     } catch (error) {
@@ -16,10 +21,14 @@ bands.get('/', async (req,res) => {
     })
 
 
-bands.get('/:id', async (req,res) => {
+bands.get('/:name', async (req,res) => {
     try {
-        const foundBand = await Band.findAll({
-            where: { band_id: req.params.id }
+        console.log(req)
+        const foundBand = await Band.findOne({
+            where: { name: req.params.name },
+            include: [{ 
+                model: MeetGreets, as : "mg"
+        }]
         })
         res.status(200).json(foundBand)
     } catch (error) {
